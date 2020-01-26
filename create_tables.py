@@ -1,7 +1,7 @@
 import psycopg2
 from sql_queries import create_table_queries, drop_table_queries
 
-
+# Function that creates a new database and connects to it
 def create_database():
     # connect to default database
     conn = psycopg2.connect("host=127.0.0.1 dbname=studentdb user=student password=student")
@@ -21,19 +21,19 @@ def create_database():
     
     return cur, conn
 
-
+# Function that drops tables
 def drop_tables(cur, conn):
     for query in drop_table_queries:
         cur.execute(query)
         conn.commit()
 
-
+# Function that creates new tables
 def create_tables(cur, conn):
     for query in create_table_queries:
         cur.execute(query)
         conn.commit()
 
-
+# Function that executes other functions
 def main():
     cur, conn = create_database()
     
