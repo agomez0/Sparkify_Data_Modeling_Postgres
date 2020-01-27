@@ -36,13 +36,13 @@ Dimension Tables
 * artist_id  
 * year  
 * duration  
-4. artists: artists in music database
+4. artists: artists in music database  
 * artist_id  
 * name  
 * location  
 * latitude  
 * longitude  
-5. time: timestamps of records in songplays broken into specific units  
+5. time: timestamps of records in songplays broken into specific units   
 * start_time  
 * hour  
 * day  
