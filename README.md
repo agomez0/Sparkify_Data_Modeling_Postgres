@@ -10,8 +10,8 @@ Sparkify is a startup company that needs help structuring their data in a way th
 * `test.ipynb`: preview the first few rows of tables.
 
 ## Schema:
-Fact Table
-    1. songplays: records in log data associated with song plays (records with page "NextSong")
+Fact Table  
+    1. songplays: records in log data associated with song plays (records with page "NextSong")  
         songplay_id  
         start_time  
         user_id  
@@ -22,14 +22,14 @@ Fact Table
         location  
         user_agent  
 
-Dimension Tables
-    2. users: app users
+Dimension Tables  
+    2. users: app users  
         user_id  
         first_name  
         last_name  
         gender  
         level  
-    3. songs: songs in music database
+    3. songs: songs in music database  
         song_id  
         title  
         artist_id  
@@ -41,7 +41,7 @@ Dimension Tables
         location  
         latitude  
         longitude  
-    5. time: timestamps of records in songplays broken into specific units
+    5. time: timestamps of records in songplays broken into specific units  
         start_time  
         hour  
         day  
