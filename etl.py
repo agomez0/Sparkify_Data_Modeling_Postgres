@@ -4,7 +4,18 @@ import psycopg2
 import pandas as pd
 from sql_queries import *
 
-# Function that reads data from JSON song files and inserts it into tables
+
+"""
+Description: This function is used to read the file in the filepath (data/song_data)
+to get the song and artist info in order to populate the song and artists tables.
+
+Arguments:
+    cur: the cursor object.
+    filepath: log data file path.
+
+Returns:
+    None
+"""
 def process_song_file(cur, filepath):
     # open song file
     df = pd.read_json(filepath, lines=True)
@@ -17,7 +28,18 @@ def process_song_file(cur, filepath):
     artist_data = list(df[['artist_id', 'artist_name', 'artist_location', 'artist_latitude', 'artist_longitude']].values[0])
     cur.execute(artist_table_insert, artist_data)
 
-# Function that reads data from JSON log files and inserts it into tables
+
+"""
+Description: This function is used to read the file in the filepath (data/log_data)
+to get the user and time info in order to populate the users and time tables.
+
+Arguments:
+    cur: the cursor object.
+    filepath: log data file path.
+
+Returns:
+    None
+"""
 def process_log_file(cur, filepath):
     # open log file
     df = pd.read_json(filepath, lines=True)
@@ -37,7 +59,7 @@ def process_log_file(cur, filepath):
         cur.execute(time_table_insert, list(row))
 
     # load user table
-    user_df = df[['userId', 'firstName', 'lastName', 'gender', 'level']].drop_duplicates()
+    user_df = df[['userId', 'firstName', 'lastName', 'gender', 'level']]
 
     # insert user records
     for i, row in user_df.iterrows():
@@ -58,8 +80,22 @@ def process_log_file(cur, filepath):
         # insert songplay record
         songplay_data = (pd.to_datetime(row.ts, unit='ms'), row.userId, row.level, songid, artistid, row.sessionId, row.location, row.userAgent)
         cur.execute(songplay_table_insert, songplay_data)
-        
-# Function that grabs files in a certain directory and iterates through them
+
+
+"""
+Description: This function is used to grab all JSON files in the specified file path
+and iterate through all the files. It then executes the corresponding function
+in order to insert the data within each file into appropriate tables. 
+
+Arguments:
+    cur: the cursor object.
+    conn: connection to database.
+    filepath: log data file path.
+    func: function that inserts data into tables.
+
+Returns:
+    None
+"""        
 def process_data(cur, conn, filepath, func):
     # get all files matching extension from directory
     all_files = []
@@ -78,7 +114,18 @@ def process_data(cur, conn, filepath, func):
         conn.commit()
         print('{}/{} files processed.'.format(i, num_files))
 
-# Function that initiates and executes other functions
+
+"""
+Description: This function is used to initiate a connection to the database.
+It then executes the process_data function, whose arguments include the 
+filepath to the data files and the corresponding function for each file type.
+
+Arguments:
+   None
+
+Returns:
+    None
+"""
 def main():
     conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
     cur = conn.cursor()
